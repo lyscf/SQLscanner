@@ -22,28 +22,38 @@ print('''______ _               _       _           _   _                       
 ''')
 print('搜索语法：')
 print('inurl:asp?id=')
-print('inurl:php?id=')
 i = 0
 print('输入关键字')
 keyword = input()
+urls = []
+old_urls = []
 
 
 def get_pages(keyword, pages):
+    global urls
     pages = pages * 10 + 1
     pages = str(pages)
     url = bing + keyword + '&first=' + pages
-    print(url)
     res = requests.get(url, headers=headers)
     tree = etree.HTML(res.text)
     res = tree.xpath('//div[@class="b_caption"]/div/cite/text()')
-    print(res)
+    urls = res
     return res
 
 
-while i < 1000:
+while True:
     urls = get_pages(keyword, i)
-    for url in urls:
-        print(url)
-        result_file = open('beingurls.txt', 'a+', encoding='utf-8')
-        result_file.write(url + '\r')
+    print(urls)
+    if old_urls == urls:
+        break
+        # 两张页面提取内容相同就结束
+    else:
+        for url in urls:
+            print('[+]Get url :' + url)
+            result_file = open('beingurls.txt', 'a+', encoding='utf-8')
+            result_file.write(url + '\r')
+            # 循环输出url
+    old_urls = urls
+    print(old_urls)
     i = i + 1
+    print('[+]Current page :' + i)
