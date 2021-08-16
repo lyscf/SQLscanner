@@ -41,19 +41,14 @@ def get_pages(keyword, pages):
     return res
 
 
-while True:
+while i < 80:
     urls = get_pages(keyword, i)
     print(urls)
-    if old_urls == urls:
-        break
-        # 两张页面提取内容相同就结束
-    else:
-        for url in urls:
-            print('[+]Get url :' + url)
-            result_file = open('beingurls.txt', 'a+', encoding='utf-8')
-            result_file.write(url + '\r')
-            # 循环输出url
-    old_urls = urls
-    print(old_urls)
+    for url in urls:
+        print('[+]Get url :' + url)
+        result_file = open('beingurls.txt', 'a+', encoding='utf-8')
+        result_file.write(url + '\r')
+    # 循环输出url
     i = i + 1
-    print('[+]Current page :' + i)
+
+
